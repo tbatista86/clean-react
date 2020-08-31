@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.export = {
   mode: 'development',
-  entry: './src/main/index.tsx',
+  entry: path.resolve(__dirname, './src/main/index.tsx'),
   output: {
     path: path.join(__dirname, 'public/js'),
     publicPath: '/public/js',
@@ -48,7 +48,7 @@ module.export = {
   },
   externals: {
     react: 'React',
-    'react-dom': 'ReactDom',
+    'react-dom': 'ReactDOM',
   },
   plugins: [new CleanWebpackPlugin()],
 }
