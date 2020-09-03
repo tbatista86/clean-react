@@ -3,7 +3,7 @@ import {
   render,
   RenderResult,
   cleanup,
-  fireEvent
+  fireEvent,
 } from '@testing-library/react'
 import Login from './login'
 import { Validation } from '@/presentation/protocols/validation'
@@ -17,7 +17,7 @@ class ValidationSpy implements Validation {
   errorMessage: string
   input: object
 
-  validate (input: object): string {
+  validate(input: object): string {
     this.input = input
     return this.errorMessage
   }
@@ -28,7 +28,7 @@ const makeSut = (): SutTypes => {
   const sut = render(<Login validation={validationSpy} />)
   return {
     sut,
-    validationSpy
+    validationSpy,
   }
 }
 
@@ -53,7 +53,16 @@ describe('Login Component', () => {
     const emailInput = sut.getByTestId('email')
     fireEvent.input(emailInput, { target: { value: 'any_email' } })
     expect(validationSpy.input).toEqual({
-      email: 'any_email'
+      email: 'any_email',
+    })
+  })
+
+  test('Should call validation with correct password', () => {
+    const { sut, validationSpy } = makeSut()
+    const passwordInput = sut.getByTestId('password')
+    fireEvent.input(passwordInput, { target: { value: 'any_password' } })
+    expect(validationSpy.input).toEqual({
+      password: 'any_password',
     })
   })
 })
