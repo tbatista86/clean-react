@@ -4,7 +4,7 @@ import {
   Footer,
   LoginHeader,
   Input,
-  FormStatus,
+  FormStatus
 } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-context'
 
@@ -15,7 +15,7 @@ type StateProps = {
 const Login: React.FC = () => {
   const [state] = useState<StateProps>({
     isLoading: false,
-    errorMessage: '',
+    errorMessage: ''
   })
   return (
     <div className={Styles.login}>
