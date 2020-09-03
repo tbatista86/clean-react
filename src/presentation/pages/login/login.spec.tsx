@@ -3,7 +3,7 @@ import {
   render,
   RenderResult,
   cleanup,
-  fireEvent
+  fireEvent,
 } from '@testing-library/react'
 import Login from './login'
 import { ValidationStub } from '@/presentation/test'
@@ -21,7 +21,7 @@ const makeSut = (): SutTypes => {
   const sut = render(<Login validation={validationStub} />)
   return {
     sut,
-    validationStub
+    validationStub,
   }
 }
 
@@ -54,10 +54,22 @@ describe('Login Component', () => {
     const { sut, validationStub } = makeSut()
     const passwordInput = sut.getByTestId('password')
     fireEvent.input(passwordInput, {
-      target: { value: faker.internet.password() }
+      target: { value: faker.internet.password() },
     })
     const passwordStatus = sut.getByTestId('password-status')
     expect(passwordStatus.title).toBe(validationStub.errorMessage)
     expect(passwordStatus.textContent).toBe('🔴')
+  })
+
+  test('Should show valid password state if Validation succeeds', () => {
+    const { sut, validationStub } = makeSut()
+    validationStub.errorMessage = null
+    const passwordInput = sut.getByTestId('password')
+    fireEvent.input(passwordInput, {
+      target: { value: faker.internet.password() },
+    })
+    const passwordStatus = sut.getByTestId('password-status')
+    expect(passwordStatus.title).toBe('Tudo certo!')
+    expect(passwordStatus.textContent).toBe('✅')
   })
 })
