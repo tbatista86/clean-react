@@ -4,7 +4,7 @@ import {
   Footer,
   LoginHeader,
   Input,
-  FormStatus,
+  FormStatus
 } from '@/presentation/components'
 
 const Login: React.FC = () => {
