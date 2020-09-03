@@ -4,7 +4,7 @@ import {
   Footer,
   LoginHeader,
   Input,
-  FormStatus,
+  FormStatus
 } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
@@ -20,7 +20,7 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     password: '',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
-    mainError: '',
+    mainError: ''
   })
 
   useEffect(() => {
