@@ -3,8 +3,8 @@ import Styles from './input-styles.scss'
 import Context from '@/presentation/contexts/form/form-context'
 
 type Props = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
+React.InputHTMLAttributes<HTMLInputElement>,
+HTMLInputElement
 >
 
 const Input: React.FC<Props> = (props: Props) => {
@@ -16,7 +16,7 @@ const Input: React.FC<Props> = (props: Props) => {
   const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
     setState({
       ...state,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     })
   }
   const getTitle = (): string => {
