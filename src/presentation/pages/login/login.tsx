@@ -4,7 +4,7 @@ import {
   Footer,
   LoginHeader,
   Input,
-  FormStatus
+  FormStatus,
 } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '@/presentation/protocols/validation'
@@ -20,14 +20,14 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     password: '',
     emailError: '',
     passwordError: '',
-    mainError: ''
+    mainError: '',
   })
 
   useEffect(() => {
     setState({
       ...state,
       emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password)
+      passwordError: validation.validate('password', state.password),
     })
   }, [state.email, state.password])
 
@@ -45,7 +45,7 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
           />
           <button
             data-testid="submit"
-            disabled
+            disabled={!!state.emailError || !!state.passwordError}
             className={Styles.submit}
             type="submit"
           >
