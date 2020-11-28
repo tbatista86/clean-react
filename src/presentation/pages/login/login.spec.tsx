@@ -7,20 +7,7 @@ import {
   fireEvent
 } from '@testing-library/react'
 import Login from './login'
-import { ValidationStub } from '@/presentation/test'
-import { Authentication, AutheticationParams } from '@/domain/usescases'
-import { AccountModel } from '@/domain/models'
-import { mockAccountModel } from '@/domain/test'
-
-class AuthenticationSpy implements Authentication {
-  account = mockAccountModel()
-  params: AutheticationParams
-
-  async auth (params: AutheticationParams): Promise<AccountModel> {
-    this.params = params
-    return Promise.resolve(this.account)
-  }
-}
+import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
 
 type SutTypes = {
   sut: RenderResult
