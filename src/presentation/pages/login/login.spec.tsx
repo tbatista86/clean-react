@@ -1,4 +1,5 @@
 import React from 'react'
+import faker from 'faker'
 import {
   render,
   RenderResult,
@@ -7,10 +8,23 @@ import {
 } from '@testing-library/react'
 import Login from './login'
 import { ValidationStub } from '@/presentation/test'
-import faker from 'faker'
+import { Authentication, AutheticationParams } from '@/domain/usescases'
+import { AccountModel } from '@/domain/models'
+import { mockAccountModel } from '@/domain/test'
+
+class AuthenticationSpy implements Authentication {
+  account = mockAccountModel()
+  params: AutheticationParams
+
+  async auth (params: AutheticationParams): Promise<AccountModel> {
+    this.params = params
+    return Promise.resolve(this.account)
+  }
+}
 
 type SutTypes = {
   sut: RenderResult
+  authenticationSpy: AuthenticationSpy
 }
 
 type SutParms = {
@@ -19,10 +33,12 @@ type SutParms = {
 
 const makeSut = (params?: SutParms): SutTypes => {
   const validationStub = new ValidationStub()
+  const authenticationSpy = new AuthenticationSpy()
   validationStub.errorMessage = params?.validationError
-  const sut = render(<Login validation={validationStub} />)
+  const sut = render(<Login validation={validationStub} authentication={authenticationSpy}/>)
   return {
-    sut
+    sut,
+    authenticationSpy
   }
 }
 
@@ -115,5 +131,18 @@ describe('Login Component', () => {
     fireEvent.click(submitButton)
     const spinner = sut.getAllByTestId('spinner')
     expect(spinner).toBeTruthy()
+  })
+
+  test('Should call Authentication with correct values', () => {
+    const { sut, authenticationSpy } = makeSut()
+    const emailInput = sut.getByTestId('email')
+    const email = faker.internet.email()
+    fireEvent.input(emailInput, { target: { value: email } })
+    const passwordInput = sut.getByTestId('password')
+    const password = faker.internet.password()
+    fireEvent.input(passwordInput, { target: { value: password } })
+    const submitButton = sut.getByTestId('submit')
+    fireEvent.click(submitButton)
+    expect(authenticationSpy.params).toEqual({ email, password })
   })
 })
